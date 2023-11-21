@@ -13,9 +13,55 @@ namespace Calculator
         {
             string expression = Console.ReadLine();
             var (numbers, operations) = ParseMathExpression(expression);
-            ShowList(numbers);
-            ShowList(operations);
+            Console.WriteLine(CalculateExpression(numbers, operations));
             Console.ReadKey();
+        }
+
+        static int CalculateExpression(List<int> numbers, List<string> operations)
+        {
+            int result;
+            for (int i = 0; i < operations.Count;)
+            {
+                if (operations[i] == "*")
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "*");
+                else if (operations[i] == "/")
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "/");
+                else
+                    i++;
+            }
+            for (int i = 0; i < operations.Count;)
+            {
+                if (operations[i] == "+")
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "+");
+                else if (operations[i] == "-")
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "-");
+                else
+                    i++;
+            }
+            result = numbers[0];
+            return result;
+        }
+
+        static (List<int>, List<string>) PerformOperation(List<int> numbers, List<string> operations, int iteration, string operation)
+        {
+            switch (operation)
+            {
+                case "*":
+                    numbers[iteration] *= numbers[iteration + 1];
+                    break;
+                case "/":
+                    numbers[iteration] /= numbers[iteration + 1];
+                    break;
+                case "+":
+                    numbers[iteration] += numbers[iteration + 1];
+                    break;
+                case "-":
+                    numbers[iteration] -= numbers[iteration + 1];
+                    break;
+            }
+            numbers.RemoveAt(iteration + 1);
+            operations.RemoveAt(iteration);
+            return (numbers, operations);
         }
 
         static (List<int>, List<string>) ParseMathExpression(string expression)
