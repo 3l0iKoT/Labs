@@ -13,16 +13,8 @@ namespace Calculator
         {
             string expression = Console.ReadLine();
             var (numbers, operations) = ParseMathExpression(expression);
-            foreach (var item in numbers)
-            {
-                Console.Write(item + " ");
-            }
-            Console.WriteLine();
-            foreach (var item in operations)
-            {
-                Console.Write(item + " ");
-            }
-            Console.WriteLine();
+            ShowList(numbers);
+            ShowList(operations);
             Console.ReadKey();
         }
 
@@ -47,6 +39,15 @@ namespace Calculator
             }
             numbers.Add(currentNumber);
             return (numbers, operations);
+        }
+
+        static void ShowList<T>(List<T> list)
+        {
+            foreach (var item in list)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
         }
     }
 }
