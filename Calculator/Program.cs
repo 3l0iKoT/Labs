@@ -23,39 +23,45 @@ namespace Calculator
             for (int i = 0; i < operations.Count;)
             {
                 if (operations[i] == "*")
-                {
-                    numbers[i] *= numbers[i + 1];
-                    numbers.RemoveAt(i + 1);
-                    operations.RemoveAt(i);
-                }
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "*");
                 else if (operations[i] == "/")
-                {
-                    numbers[i] /= numbers[i + 1];
-                    numbers.RemoveAt(i + 1);
-                    operations.RemoveAt(i);
-                }
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "/");
                 else
                     i++;
             }
             for (int i = 0; i < operations.Count;)
             {
                 if (operations[i] == "+")
-                {
-                    numbers[i] += numbers[i + 1];
-                    numbers.RemoveAt(i + 1);
-                    operations.RemoveAt(i);
-                }
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "+");
                 else if (operations[i] == "-")
-                {
-                    numbers[i] -= numbers[i + 1];
-                    numbers.RemoveAt(i + 1);
-                    operations.RemoveAt(i);
-                }
+                    (numbers, operations) = PerformOperation(numbers, operations, i, "-");
                 else
                     i++;
             }
             result = numbers[0];
             return result;
+        }
+
+        static (List<int>, List<string>) PerformOperation(List<int> numbers, List<string> operations, int iteration, string operation)
+        {
+            switch (operation)
+            {
+                case "*":
+                    numbers[iteration] *= numbers[iteration + 1];
+                    break;
+                case "/":
+                    numbers[iteration] /= numbers[iteration + 1];
+                    break;
+                case "+":
+                    numbers[iteration] += numbers[iteration + 1];
+                    break;
+                case "-":
+                    numbers[iteration] -= numbers[iteration + 1];
+                    break;
+            }
+            numbers.RemoveAt(iteration + 1);
+            operations.RemoveAt(iteration);
+            return (numbers, operations);
         }
 
         static (List<int>, List<string>) ParseMathExpression(string expression)
