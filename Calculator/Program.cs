@@ -11,7 +11,42 @@ namespace Calculator
     {
         static void Main(string[] args)
         {
+            string expression = Console.ReadLine();
+            var (numbers, operations) = ParseMathExpression(expression);
+            foreach (var item in numbers)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
+            foreach (var item in operations)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
+            Console.ReadKey();
+        }
 
+        static (List<int>, List<string>) ParseMathExpression(string expression)
+        {
+            expression = expression.Replace(" ", "");
+            List<int> numbers = new List<int>();
+            List<string> operations = new List<string>();
+            int currentNumber = 0;
+            foreach (char c in expression)
+            {
+                if (char.IsDigit(c))
+                {
+                    currentNumber = currentNumber * 10 + (c - '0');
+                }
+                else
+                {
+                    numbers.Add(currentNumber);
+                    currentNumber = 0;
+                    operations.Add(c.ToString());
+                }
+            }
+            numbers.Add(currentNumber);
+            return (numbers, operations);
         }
     }
 }
