@@ -13,9 +13,51 @@ namespace Calculator
         {
             string expression = Console.ReadLine();
             var (numbers, operations) = ParseMathExpression(expression);
-            ShowList(numbers);
-            ShowList(operations);
+            Console.WriteLine(CalculateExpression(numbers, operations));
             Console.ReadKey();
+        }
+
+        static int CalculateExpression(List<int> numbers, List<string> operations)
+        {
+            int result;
+            int i = 0;
+            do
+            {
+                if (operations[i] == "*")
+                {
+                    numbers[i] *= numbers[i + 1];
+                    numbers.RemoveAt(i + 1);
+                    operations.RemoveAt(i);
+                }
+                else if (operations[i] == "/")
+                {
+                    numbers[i] /= numbers[i + 1];
+                    numbers.RemoveAt(i + 1);
+                    operations.RemoveAt(i);
+                }
+                else
+                    i++;
+            } while (i < operations.Count);
+            i = 0;
+            do
+            {
+                if (operations[i] == "+")
+                {
+                    numbers[i] += numbers[i + 1];
+                    numbers.RemoveAt(i + 1);
+                    operations.RemoveAt(i);
+                }
+                else if (operations[i] == "-")
+                {
+                    numbers[i] -= numbers[i + 1];
+                    numbers.RemoveAt(i + 1);
+                    operations.RemoveAt(i);
+                }
+                else
+                    i++;
+            } while(i < operations.Count);
+            result = numbers[0];
+            return result;
         }
 
         static (List<int>, List<string>) ParseMathExpression(string expression)
