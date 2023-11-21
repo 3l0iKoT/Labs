@@ -20,8 +20,7 @@ namespace Calculator
         static int CalculateExpression(List<int> numbers, List<string> operations)
         {
             int result;
-            int i = 0;
-            do
+            for (int i = 0; i < operations.Count;)
             {
                 if (operations[i] == "*")
                 {
@@ -37,9 +36,8 @@ namespace Calculator
                 }
                 else
                     i++;
-            } while (i < operations.Count);
-            i = 0;
-            do
+            }
+            for (int i = 0; i < operations.Count;)
             {
                 if (operations[i] == "+")
                 {
@@ -55,7 +53,7 @@ namespace Calculator
                 }
                 else
                     i++;
-            } while(i < operations.Count);
+            }
             result = numbers[0];
             return result;
         }
